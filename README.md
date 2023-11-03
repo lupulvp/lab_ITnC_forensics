@@ -31,3 +31,23 @@ Now we build and configure the VM. This will download the Win10 ISO from Microso
 $ ./packer build windows_10-packer.json
 
 ```
+
+
+## Starting the Virtual Machines
+Copy `config-template.yaml` to `config.yaml` and update the variables if needed.
+
+In root directory run
+
+```sh
+
+$ vagrant up
+
+```
+Credentials:
+- Window 10 VM `analyst:infected`
+
+At this point you have a Windows 10 Enterprise 22H2 virtual machine
+
+### Notes
+- adjust number of CPUs and amount of memory depending on your local resources in `config.yaml` file
+- vagrant will check if the boxes are present in the `./Boxes` folder and if not it will pull them from the Vagrant cloud

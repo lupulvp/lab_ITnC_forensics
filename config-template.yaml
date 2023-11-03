@@ -1,0 +1,6 @@
+stack_name: "ITnC_Forensics-Lab"
+
+windows10_vm_box: "lupulvp/Win10Enterprise22H2"
+windows10_vm_box_version: "1.0.0"
+windows10_vm_memory: 4096
+windows10_vm_cpus: 2
