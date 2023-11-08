@@ -42,8 +42,8 @@
         ]
       ],
       "vm_name": "windows_10",
-      "winrm_username": "analyst",
-      "winrm_password": "infected",
+      "winrm_username": "vagrant",
+      "winrm_password": "vagrant",
       "winrm_timeout": "4h"
     }
   ],

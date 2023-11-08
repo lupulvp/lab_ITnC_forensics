@@ -12,8 +12,8 @@ goto :done
 
 :vmware
 
-if exist "C:\Users\analyst\windows.iso" (
-  move /Y C:\Users\analyst\windows.iso C:\Windows\Temp
+if exist "C:\Users\vagrant\windows.iso" (
+  move /Y C:\Users\vagrant\windows.iso C:\Windows\Temp
 )
 
 if not exist "C:\Windows\Temp\windows.iso" (
@@ -33,8 +33,8 @@ goto :done
 
 :virtualbox
 
-if exist "C:\Users\analyst\VBoxGuestAdditions.iso" (
-  move /Y C:\Users\analyst\VBoxGuestAdditions.iso C:\Windows\Temp
+if exist "C:\Users\vagrant\VBoxGuestAdditions.iso" (
+  move /Y C:\Users\vagrant\VBoxGuestAdditions.iso C:\Windows\Temp
 )
 
 if not exist "C:\Windows\Temp\VBoxGuestAdditions.iso" (

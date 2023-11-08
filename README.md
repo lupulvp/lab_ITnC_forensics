@@ -32,6 +32,14 @@ $ ./packer build windows_10-packer.json
 
 ```
 
+Upload box to Vagrant cloud
+```
+$ certutil -hashfile ./Win10Enterprise22H2_virtualbox.box SHA256
+SHA256 hash of ./Win10Enterprise22H2_virtualbox.box:
+43232685b4f6b41a841adf3bb7f3e51e89114f014301d008005dfea256884435
+CertUtil: -hashfile command completed successfully.
+```
+
 ## Building the Windows Server 2022 21H2 VM (manual box creation)
 Steps:
 1. Download the VHD file from Microsoft: https://software-static.download.prss.microsoft.com/pr/download/20348.169.amd64fre.fe_release_svc_refresh.210806-2348_server_serverdatacentereval_en-us.vhd
@@ -72,7 +80,7 @@ $ vagrant up
 
 ```
 Credentials:
-- Window 10 VM `analyst:infected`
+- Window 10 VM `vagrant:vagrant`
 - Windows Server 2022 VM `Administrator:Somepassword2023@#$`
 
 At this point you have a Windows 10 Enterprise 22H2 virtual machine
