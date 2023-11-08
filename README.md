@@ -32,7 +32,7 @@ $ ./packer build windows_10-packer.json
 
 ```
 
-## Building the Windows Server 2022 VM (manual box creation)
+## Building the Windows Server 2022 21H2 VM (manual box creation)
 Steps:
 1. Download the VHD file from Microsoft: https://software-static.download.prss.microsoft.com/pr/download/20348.169.amd64fre.fe_release_svc_refresh.210806-2348_server_serverdatacentereval_en-us.vhd
 2. Create VirtaulBox VM with proper specs (CPUs, Memory) and use the VHD file as virtual disk. Go through the install wizard. Credentials `Administrator:Somepassword2023@#$`
