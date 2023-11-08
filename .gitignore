@@ -1,6 +1,9 @@
 # custom files and folders
 *.box
 *.ova
+*.iso
+*.vhd
+*.vdi
 output-virtualbox-iso
 packer_cache
 .vagrant

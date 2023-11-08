@@ -27,6 +27,7 @@ Vagrant.configure("2") do |config|
     win10.vm.hostname = WINDOWS10_VM["name"]
     win10.vm.guest = :windows
     win10.vm.synced_folder ".", "/vagrant", disabled: true  # disable synced folder
+    win10.vm.network :private_network, virtualbox__intnet: "itncforensiclab", auto_config: false
 
     win10.vm.communicator = "winrm"
     win10.winrm.basic_auth_only = true    
@@ -38,7 +39,9 @@ Vagrant.configure("2") do |config|
     win10.winrm.retry_limit = 20
 
     win10.vm.provision "shell", inline: "echo 'Provisioning Win10Enterprise22H2 VM...'"
-    win10.vm.provision "shell", path: "./res/windows/scripts/provision.ps1", privileged: true
+    win10.vm.provision "shell", path: "./res/windows10/install-chrome.ps1", privileged: false     
+    win10.vm.provision "shell", path: "./res/windows10/configure-windows-network.ps1", privileged: true, args: "-adapterName 'Ethernet 2' -ip '10.100.0.105' -gateway '10.100.0.1' -dns '10.100.0.1'"
+    win10.vm.provision "shell", path: "./res/windows10/provision.ps1", privileged: true
     win10.vm.provision "shell", inline: "echo 'Provisioning ended, rebooting...'"
     win10.vm.provision :reload
 
