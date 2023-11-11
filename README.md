@@ -34,30 +34,53 @@ $ ./packer build windows_10-packer.json
 
 Upload box to Vagrant cloud
 ```
-$ certutil -hashfile ./Win10Enterprise22H2_virtualbox.box SHA256
-SHA256 hash of ./Win10Enterprise22H2_virtualbox.box:
-43232685b4f6b41a841adf3bb7f3e51e89114f014301d008005dfea256884435
+$ certutil -hashfile ./Boxes//Win10Enterprise22H2_virtualbox.box SHA256
+SHA256 hash of ./Boxes//Win10Enterprise22H2_virtualbox.box:
+f85f1e7de920b53fb795cbd955c6503bd9515a585542f53beb8eb589a13c9d4c
 CertUtil: -hashfile command completed successfully.
 ```
 
 ## Building the Windows Server 2022 21H2 VM (manual box creation)
 Steps:
-1. Download the VHD file from Microsoft: https://software-static.download.prss.microsoft.com/pr/download/20348.169.amd64fre.fe_release_svc_refresh.210806-2348_server_serverdatacentereval_en-us.vhd
-2. Create VirtaulBox VM with proper specs (CPUs, Memory) and use the VHD file as virtual disk. Go through the install wizard. Credentials `Administrator:Somepassword2023@#$`
+1. Download the ISO file from Microsoft: https://software-static.download.prss.microsoft.com/sg/download/888969d5-f34g-4e03-ac9d-1f9786c66749/SERVER_EVAL_x64FRE_en-us.iso
+2. Create VirtaulBox VM with proper specs (CPUs, Memory) and use the ISO file to install. Go through the install wizard. Credentials `Administrator:Somepassword2023@#$` . Note: Do not use the unattended install, this didn't work for me.
 3. Try to boot the VM and see if everything works as expected. Install the VirtualBox Guest Additions (recommended).
-4. Configure the VM as per Vagrant docs: https://developer.hashicorp.com/vagrant/docs/boxes/base 
-5. Package it as a Vagrant box 
+4. Configure the VM as per Vagrant docs: https://developer.hashicorp.com/vagrant/docs/boxes/base . Run in CMD not in PowerShell
 ```
-vagrant package --base vbox_vm_name --output box_name.box
+reg add HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /d 0 /t REG_DWORD /f /reg:64
+
+winrm quickconfig -q
+winrm set winrm/config/winrs @{MaxMemoryPerShellMB="512"}
+winrm set winrm/config @{MaxTimeoutms="1800000"}
+winrm set winrm/config/service @{AllowUnencrypted="true"}
+winrm set winrm/config/service/auth @{Basic="true"}
+sc config WinRM start= auto
+
+netsh firewall add portopening TCP 5985 "Port 5985"
+winrm set winrm/config/listener?Address=*+Transport=HTTP @{Port="5985"}
+
+```
+5. Package it as a Vagrant box with command `vagrant package --base vbox_vm_name --output box_name.box`
+```
+$ ./scripts/VBoxManage.sh list vms
+"kali-linux-2023.2-virtualbox-amd64" {f43a94b9-4908-4cf7-bab9-4584b7c5473c}
+"WindowsServer2022-21H2" {bcde8bb0-94fe-448a-919f-cc234c8f6b65}
+
+$ vagrant package --base WindowsServer2022-21H2 --output ./Boxes/WinServer2022_virtualbox.box
+==> WindowsServer2022-21H2: Exporting VM...
 ```
 6. Calculate SHA256 so it can be uploaded
 ```
-$ certutil -hashfile ./Win10Enterprise22H2_virtualbox.box SHA256
-SHA256 hash of ./Win10Enterprise22H2_virtualbox.box:
-43232685b4f6b41a841adf3bb7f3e51e89114f014301d008005dfea256884435
+$ certutil -hashfile ./Boxes/WinServer2022_virtualbox.box SHA256
+SHA256 hash of ./Boxes/WinServer2022_virtualbox.box:
+a9a7d2ca3c1b96711759b1e11919b2b6f5483d7f3360169483644083e3e070c5
 CertUtil: -hashfile command completed successfully.
 ```
 7. Upload box to Vagrant Cloud
+
+Note:
+- Windows Server 2022 Standard KMS key:  VDYBN-27WPP-V4HQT-9VMD4-VMK7H 
+https://learn.microsoft.com/en-us/windows-server/get-started/kms-client-activation-keys#windows-server-2022 
 
 Optional: 
 If importing the VHD file does not work then convert it into a VDI file and use it to start the VM. 

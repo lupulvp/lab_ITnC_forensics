@@ -1,6 +1,20 @@
-stack_name: "ITnC_Forensics-Lab"
+stack_name: "ITnC-Forensics-Lab"
 
 windows10_vm_box: "lupulvp/Win10Enterprise22H2"
 windows10_vm_box_version: "1.0.0"
 windows10_vm_memory: 4096
+windows10_vm_active: true
 windows10_vm_cpus: 2
+windows10_vm_username: "vagrant"
+windows10_vm_password: "vagrant"
+windows10_vm_active: true
+
+winserver22_vm_box: "lupulvp/WindowsServer2022-21H2"
+winserver22_vm_box_version: "1.0.0"
+winserver22_vm_memory: 4096
+winserver22_vm_cpus: 2
+winserver22_vm_username: "Administrator"
+winserver22_vm_password: "Somepassword2023@#$"
+winserver22_vm_active: true
+
+intnet_name: "itncforensiclab"
