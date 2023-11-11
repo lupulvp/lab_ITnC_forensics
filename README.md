@@ -16,6 +16,32 @@ $ vagrant plugin install vagrant-reload
 
 ```
 
+
+## Starting the Virtual Machines
+Copy `config-template.yaml` to `config.yaml` and update the variables if needed.
+
+In root directory run
+
+```sh
+
+$ vagrant up
+
+```
+Credentials:
+- Window 10 VM `vagrant:vagrant`
+- Windows Server 2022 VM `Administrator:Somepassword2023@#$`
+
+
+### Notes
+- adjust number of CPUs and amount of memory depending on your local resources in `config.yaml` file
+- each VM can be deactivated from the configuration if it's not needed to be launched
+- vagrant will check if the boxes are present in the `./Boxes` folder and if not it will pull them from the Vagrant cloud
+
+
+
+
+# Building the vagrant boxes
+
 ## Building the Windows10 VM (automatic box creation)
 Install guest additions plugin and move into our working directory.
   
@@ -80,25 +106,6 @@ CertUtil: -hashfile command completed successfully.
 
 
 
-
-## Starting the Virtual Machines
-Copy `config-template.yaml` to `config.yaml` and update the variables if needed.
-
-In root directory run
-
-```sh
-
-$ vagrant up
-
-```
-Credentials:
-- Window 10 VM `vagrant:vagrant`
-- Windows Server 2022 VM `Administrator:Somepassword2023@#$`
-
-
-### Notes
-- adjust number of CPUs and amount of memory depending on your local resources in `config.yaml` file
-- vagrant will check if the boxes are present in the `./Boxes` folder and if not it will pull them from the Vagrant cloud
 
 
 
