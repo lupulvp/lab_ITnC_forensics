@@ -122,4 +122,5 @@ CertUtil: -hashfile command completed successfully.
 ## Useful Downloads
 - Download Windows Server 2022 ISO file if you want to build the box locally [https://software-static.download.prss.microsoft.com/sg/download/888969d5-f34g-4e03-ac9d-1f9786c66749/SERVER_EVAL_x64FRE_en-us.iso](https://software-static.download.prss.microsoft.com/sg/download/888969d5-f34g-4e03-ac9d-1f9786c66749/SERVER_EVAL_x64FRE_en-us.iso) SHA256 `70ab5af6264c2f967dccafc16fd9a46b6f0b07a7`
 - Download Windows Server 2022 VHD file if you want to import it directly to Virtualbox [https://software-static.download.prss.microsoft.com/pr/download/20348.169.amd64fre.fe_release_svc_refresh.210806-2348_server_serverdatacentereval_en-us.vhd](https://software-static.download.prss.microsoft.com/pr/download/20348.169.amd64fre.fe_release_svc_refresh.210806-2348_server_serverdatacentereval_en-us.vhd)
+- Ubuntu 20.04.6 LTS (Focal Fossa) [https://releases.ubuntu.com/focal/](https://releases.ubuntu.com/focal/)
 

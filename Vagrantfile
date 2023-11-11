@@ -3,11 +3,12 @@ require 'yaml'
 config_file = YAML.load(File.read('config.yaml'))
 
 STACK_NAME = config_file["stack_name"]
+INTNET_NAME = config_file["intnet_name"]
 
 WINDOWS10_VM = {
   "name" => "#{STACK_NAME}-Win10Enterprise22H2", 
-  "box" => File.exist?("./Boxes/Win10Enterprise22H2_virtualbox.box") ? "./Boxes/Win10Enterprise22H2_virtualbox.box" : config_file["windows10_vm_box"],
-  "version" => File.exist?("./Boxes/Win10Enterprise22H2_virtualbox.box") ? nil : config_file["windows10_vm_box_version"],
+  "box" => File.exist?(config_file["windows10_vm_box_local"]) ? config_file["windows10_vm_box_local"] : config_file["windows10_vm_box"],
+  "version" => File.exist?(config_file["windows10_vm_box_local"]) ? nil : config_file["windows10_vm_box_version"],
   "username" => config_file["windows10_vm_username"], 
   "password" => config_file["windows10_vm_password"],
   "memory" => config_file["windows10_vm_memory"],
@@ -18,8 +19,8 @@ WINDOWS10_VM = {
 
 WINSERVER22_VM = {
   "name" => "#{STACK_NAME}-WinServer2022-21H2", 
-  "box" => File.exist?("./Boxes/WinServer2022_virtualbox.box") ? "./Boxes/WinServer2022_virtualbox.box" : config_file["winserver22_vm_box"],
-  "version" => File.exist?("./Boxes/WinServer2022_virtualbox.box") ? nil : config_file["winserver22_vm_box_version"],
+  "box" => File.exist?(config_file["winserver22_vm_box_local"]) ? config_file["winserver22_vm_box_local"] : config_file["winserver22_vm_box"],
+  "version" => File.exist?(config_file["winserver22_vm_box_local"]) ? nil : config_file["winserver22_vm_box_version"],
   "username" => config_file["winserver22_vm_username"], 
   "password" => config_file["winserver22_vm_password"],
   "memory" => config_file["winserver22_vm_memory"],
@@ -28,7 +29,18 @@ WINSERVER22_VM = {
   "active" => config_file["winserver22_vm_active"],
 }
 
-INTNET_NAME = config_file["intnet_name"]
+KALI_VM = {
+  "name" => "#{STACK_NAME}-Kali", 
+  "box" => File.exist?(config_file["kali_vm_box_local"]) ? config_file["kali_vm_box_local"] : config_file["kali_vm_box"],
+  "version" => File.exist?(config_file["kali_vm_box_local"]) ? nil : config_file["kali_vm_box_version"],
+  "username" => config_file["kali_vm_username"], 
+  "password" => config_file["kali_vm_password"],
+  "memory" => config_file["kali_vm_memory"],
+  "cpus" => config_file["kali_vm_cpus"], 
+  "vram" => 128,
+  "active" => config_file["kali_vm_active"],
+}
+
 
 Vagrant.configure("2") do |config|
 
@@ -116,5 +128,41 @@ Vagrant.configure("2") do |config|
       end
     end
   end
+  
+  # Kali
+  if KALI_VM["active"] == true
+    config.vm.define KALI_VM["name"] do |kali|
+      kali.vm.box = KALI_VM["box"]  
+      if KALI_VM["version"] != nil
+        kali.vm.box_version = KALI_VM["version"]
+      end
+
+      kali.vm.hostname = KALI_VM["name"]
+      kali.vm.synced_folder ".", "/vagrant", disabled: true  # disable synced folder
+      kali.vm.network :private_network, virtualbox__intnet: INTNET_NAME, auto_config: false
+
+      kali.ssh.username = KALI_VM["username"]
+      kali.ssh.password = KALI_VM["password"]
+
+      kali.vm.provision "shell", inline: "echo 'Provisioning Kali VM...'"
+      kali.vm.provision "shell", path: "./res/kali/provision.sh", privileged: true
+      kali.vm.provision "shell", inline: "echo 'Provisioning ended, rebooting...'"
+      kali.vm.provision :reload
+
+      kali.vbguest.auto_update = false if Vagrant.has_plugin?("vagrant-vbguest")
+
+      kali.vm.provider "virtualbox" do |kali_vb, override|
+        kali_vb.gui = true
+        kali_vb.name = KALI_VM["name"]
+
+        kali_vb.customize ["modifyvm", :id, "--memory", KALI_VM["memory"]]
+        kali_vb.customize ["modifyvm", :id, "--cpus", KALI_VM["cpus"]]
+        kali_vb.customize ["modifyvm", :id, "--vram", KALI_VM["vram"]]
+        kali_vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
+        kali_vb.customize ["setextradata", "global", "GUI/SuppressMessages", "all" ]
+      end
+    end
+  end
+
 
 end
