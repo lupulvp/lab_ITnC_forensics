@@ -78,18 +78,7 @@ CertUtil: -hashfile command completed successfully.
 ```
 7. Upload box to Vagrant Cloud
 
-Note:
-- Windows Server 2022 Standard KMS key:  VDYBN-27WPP-V4HQT-9VMD4-VMK7H 
-https://learn.microsoft.com/en-us/windows-server/get-started/kms-client-activation-keys#windows-server-2022 
 
-Optional: 
-If importing the VHD file does not work then convert it into a VDI file and use it to start the VM. 
-Eg:
-```
-VBoxManage clonehd 20348.169.amd64fre.fe_release_svc_refresh.210806-2348_server_serverdatacentereval_en-us.vhd WindowsServer2022.vdi --format VDI
-0%...10%...20%...30%...40%...50%...60%...70%...80%...90%...100%
-Clone medium created in format 'VDI'. UUID: e516f2ea-615e-4ff7-ac8f-26b6d2dc3487
-```
 
 
 ## Starting the Virtual Machines
@@ -106,7 +95,6 @@ Credentials:
 - Window 10 VM `vagrant:vagrant`
 - Windows Server 2022 VM `Administrator:Somepassword2023@#$`
 
-At this point you have a Windows 10 Enterprise 22H2 virtual machine
 
 ### Notes
 - adjust number of CPUs and amount of memory depending on your local resources in `config.yaml` file
@@ -115,26 +103,16 @@ At this point you have a Windows 10 Enterprise 22H2 virtual machine
 
 
 ## Notes
-- The Windows key was taken from [https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/jj612867(v=ws.11)?redirectedfrom=MSDN#windows-10](https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/jj612867(v=ws.11)?redirectedfrom=MSDN#windows-10)
+- The Windows 10 Enterprise key was taken from [https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/jj612867(v=ws.11)?redirectedfrom=MSDN#windows-10](https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/jj612867(v=ws.11)?redirectedfrom=MSDN#windows-10)
+
+- - Windows Server 2022 Standard KMS key:  VDYBN-27WPP-V4HQT-9VMD4-VMK7H 
+[https://learn.microsoft.com/en-us/windows-server/get-started/kms-client-activation-keys#windows-server-2022 ](https://learn.microsoft.com/en-us/windows-server/get-started/kms-client-activation-keys#windows-server-2022)
 
 - Uploading boxes to Vagrant cloud [https://developer.hashicorp.com/vagrant/vagrant-cloud/boxes/create](https://developer.hashicorp.com/vagrant/vagrant-cloud/boxes/create)
 
 
 
-
-
-
-## Downloads
-Windows Server 2022 iso: https://software-static.download.prss.microsoft.com/sg/download/888969d5-f34g-4e03-ac9d-1f9786c66749/SERVER_EVAL_x64FRE_en-us.iso
-```
-$ certutil -hashfile ./SERVER_EVAL_x64FRE_en-us.iso 
-SHA1 hash of ./SERVER_EVAL_x64FRE_en-us.iso:
-70ab5af6264c2f967dccafc16fd9a46b6f0b07a7
-CertUtil: -hashfile command completed successfully.
-```
-
-Windows Server 2022 vhd: https://software-static.download.prss.microsoft.com/pr/download/20348.169.amd64fre.fe_release_svc_refresh.210806-2348_server_serverdatacentereval_en-us.vhd
-
-
-
+## Useful Downloads
+- Download Windows Server 2022 ISO file if you want to build the box locally [https://software-static.download.prss.microsoft.com/sg/download/888969d5-f34g-4e03-ac9d-1f9786c66749/SERVER_EVAL_x64FRE_en-us.iso](https://software-static.download.prss.microsoft.com/sg/download/888969d5-f34g-4e03-ac9d-1f9786c66749/SERVER_EVAL_x64FRE_en-us.iso) SHA256 `70ab5af6264c2f967dccafc16fd9a46b6f0b07a7`
+- Download Windows Server 2022 VHD file if you want to import it directly to Virtualbox [https://software-static.download.prss.microsoft.com/pr/download/20348.169.amd64fre.fe_release_svc_refresh.210806-2348_server_serverdatacentereval_en-us.vhd](https://software-static.download.prss.microsoft.com/pr/download/20348.169.amd64fre.fe_release_svc_refresh.210806-2348_server_serverdatacentereval_en-us.vhd)
 
